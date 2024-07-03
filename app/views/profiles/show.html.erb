@@ -1,0 +1,8 @@
+<h3>Мiй профiль</h3>
+
+<div> 
+  <%= simple_form_for(@profile, url: profile_path, data: { controller: "url-validation" }, html: { class: 'disable_overlay w-50' }) do |form| %>
+    <%= form.input :name, label: 'Ім\'я' %>
+</div>
+
+

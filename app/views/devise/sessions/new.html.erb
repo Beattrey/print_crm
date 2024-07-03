@@ -1,0 +1,14 @@
+<h2>Увійти</h2>
+
+<p>Нічого зайвого, всього один варіант, два кліки і ти зареєстрований</p>
+
+<%- if devise_mapping.omniauthable? %>
+  <%- resource_class.omniauth_providers.each do |provider| %>
+    <%= form_for "Login",
+      url: omniauth_authorize_path(resource_name, provider),
+      method: :post,
+      data: { turbo: 'false' } do |f| %>
+        <%= f.submit "Login", type: "image", src: url_for("/assets/btn_google_signin_dark_normal_web.png") %>
+    <% end %>
+  <% end %>
+<% end %>

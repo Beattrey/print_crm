@@ -1,0 +1,7 @@
+---
+:concurrency: 3
+:verbose: true
+:timeout: 25
+:queues:
+  - ["telegram", 1]
+  - ["default", 1]

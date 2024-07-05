@@ -1,0 +1,44 @@
+<div class="row">
+  <div class="d-flex align-items-center mt-4">
+    <p class="fw-bold mb-0">Назва:</p>
+    <p class="fw-normal mb-0 ms-2"><%= @order.name %></p>
+  </div>
+  <div class="d-flex align-items-center mt-4">
+    <p class="fw-bold mb-0">Опис:</p>
+    <p class="fw-normal mb-0 ms-2"><%= @order.description %></p>
+  </div>
+
+
+        <div class='complition-content'>
+        <hr class="w-50">
+          <p class="card-text">Вироблено: <b><%= @order.complition_percentage %> </b>з <%= @order.quantity %></p>
+          <p class="card-text">Взято до роботи: <b><%= @order.reserved_percentage %> </b>з <%= @order.quantity %></p>
+        <hr class="w-50">
+      </div>
+      </div>
+    </div>
+  </div>
+
+
+  <% if @order.images.attached? %>
+    <p class='fw-bold mb-0'>Зображення:</p>
+    <% @order.images.each do |image| %>
+      <%= link_to rails_blob_path(image, disposition: "inline"), target: "_blank", rel: "noopener noreferrer" do %>
+        <%= image_tag(image.variant(resize_to_fill: [200, nil])) %>
+      <% end %>
+    <% end %>
+    <hr class="w-50">
+  <% end %>
+
+  <% if @order.models.attached? %>
+    <div>
+      <p class='fw-bold mb-0'>Моделі:</p>
+        <% @order.models.each do |model| %>
+          <p class="card-text mt-1"><%= link_to File.basename(model.filename.to_s), rails_blob_path(model, disposition: 'attachment') %></p>
+        <% end %>
+    </div>
+  <% end %>
+
+
+
+</div>

@@ -2,6 +2,5 @@
   <h1>PrintCrm</h1>
   <p>PrintCrm - це програма для керування замовленнями на друк.</p>
   <p>Ви можете зареєструватися або увійти в систему.</p>
-  <%= button_to 'Я друкар', new_user_session_path(current_user), class: "btn btn-primary mt-1", data: { turbo: "false" }, method: :get %></li>
-  <%= button_to 'Я замовник', new_customer_session_path(current_user), class: "btn btn-success mt-1", data: { turbo: "false" }, method: :get %>
+  <%= button_to 'Login', new_user_session_path(current_user), class: "btn btn-primary mt-1", data: { turbo: "false" }, method: :get %></li>
 </div>

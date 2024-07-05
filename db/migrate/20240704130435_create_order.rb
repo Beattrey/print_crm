@@ -1,4 +1,4 @@
-class CreateOrders < ActiveRecord::Migration[7.0]
+class CreateOrder < ActiveRecord::Migration[7.0]
   def change
     create_table :orders do |t|
       t.string :name
@@ -6,7 +6,7 @@ class CreateOrders < ActiveRecord::Migration[7.0]
       t.integer :quantity
       t.date :deadline
       t.references :filament, null: false, foreign_key: true
-      t.references :user, null: false, foreign_key: true
+      t.references :customer, null: false, foreign_key: true
       t.timestamps
     end
   end

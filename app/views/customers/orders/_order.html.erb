@@ -1,0 +1,23 @@
+
+<div class="col-md-4 mb-4">
+  <div class="card">
+    <div class="card-header"><%= order.name %></div>
+    <div class="card-body">
+      <p class="card-text"><%= order.description %></p>
+      <div class='complition-content'>
+        <p class="card-text mt-2">Вироблено </p>
+        <div class="progress mb-2">
+          <div class="progress-bar bg-success" role="progressbar" style="width: <%= order.complition_percentage%>%;" aria-valuenow="<%= order.complition_percentage%>" aria-valuemin="0" aria-valuemax="100"><%= order.complition_percentage%>%</div>
+        </div>
+        <p class="card-text"><b><%= order.complition_percentage %> </b>з <%= order.quantity %></p>
+        <p class="card-text mt-2">Взято до роботи </p>
+        <div class="progress mb-2">
+          <div class="progress-bar" role="progressbar" style="width: <%= order.reserved_percentage%>%;" aria-valuenow="<%= order.reserved_percentage%>" aria-valuemin="0" aria-valuemax="100"><%= order.reserved_percentage%>%</div>
+        </div>
+        <p class="card-text"><b><%= order.reserved_percentage %> </b>з <%= order.quantity %></p>
+    </div>
+      <a href="<%= customers_order_path(order) %>" class=" mt-2 btn btn-primary">Переглянути замовлення</a>
+    </div>
+  </div>
+</div>
+

@@ -1,7 +1,6 @@
 <h2>Увійти</h2>
 
 <p>Нічого зайвого, всього один варіант, два кліки і ти зареєстрований</p>
-
 <%- if devise_mapping.omniauthable? %>
   <%- resource_class.omniauth_providers.each do |provider| %>
     <%= form_for "Login",

@@ -7,43 +7,36 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary", data-controller="active-link">
-      <div class="container">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <%= link_to 'Головна', root_path, class: 'nav-link', data: { target: "active-link.navLink" }%>
-            </li>
-            <% if user_signed_in? %>
-                </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  <img
-                    src="<%= current_user.avatar_url %>"
-                    class="rounded-circle"
-                    height="30"
-                    alt="user avatar"
-                    loading="lazy"
-                  />
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li> <%= button_to 'Мiй профiль', profile_path(current_user), class: "dropdown-item", data: { turbo: "false" }, method: :get %></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li> <%= button_to 'Вийти', destroy_user_session_path, class: "dropdown-item", data: { turbo: "false" }, method: :delete %> </li>
-                </ul>
-              </li>
-            <% else %>
-              <li class="nav-item">
-                <%= link_to 'Увійти', new_user_session_path, class: "nav-link active" %>
-              </li>
-            <% end %>
-          </ul>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module", async: true %>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+          <% if user_signed_in? %>
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav">
+                    <a href="#" class="nav-item nav-link active">Новини</a>
+                    <a href="#" class="nav-item nav-link">Замовлення</a>
+                    <%= link_to profile_path(current_user), class: "nav-item nav-link", data: { turbo: "false" }, method: :get do %> 
+                      <i class="bi bi-person-fill"></i>
+                    <% end %>
+
+                     <% if current_user.customer %>
+                      <%= link_to new_customers_order_path, class: "nav-item nav-link", data: { turbo: "false" }, method: :get do %>
+                        Створити замовлення
+                      <% end %>
+
+                    <%= link_to customers_orders_path, class: 'nav-item nav-link', data: { turbo: "false" }, method: :get do %>
+                      Мої замовлення
+                    <% end %>
+                  <% end %>
+                </div>
+            </div>
+          <% end %>
+
         </div>
-      </div>
     </nav>
   </head>
 

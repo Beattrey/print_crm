@@ -1,0 +1,18 @@
+<%= simple_form_for(@print_maker) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :status, label: 'Статус', :collection => PrintMaker.statuses.values, :include_blank => false %>
+  </div>
+
+  <div class="form-inputs">
+    <%= f.label :filaments, 'Можу друкувати:', class: 'form-label' %>
+    <%= f.collection_check_boxes :filament_ids, Filament.all, :id, :name do |b| %>
+      <%= b.label(class: "checkbox ml-1") { b.check_box + b.text.upcase } %>
+    <% end %>
+  </div>
+
+  <div class="btn btn-primary mt-3 mb-3">
+    <%= f.button :submit, 'Зберегти' %>
+  </div>
+<% end %>

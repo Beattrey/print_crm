@@ -1,8 +1,5 @@
 <h3>Мiй профiль</h3>
 
-<div> 
-  <%= simple_form_for(@profile, url: profile_path, data: { controller: "url-validation" }, html: { class: 'disable_overlay w-50' }) do |form| %>
-    <%= form.input :name, label: 'Ім\'я' %>
-</div>
-
-
+ <% if current_user.print_maker %>
+  <%= render 'print_makers/edit', print_maker: current_user.print_maker %>
+<% end %>

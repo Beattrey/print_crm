@@ -1,0 +1,21 @@
+production:
+  # jar_statistic_collector:
+  #   description: 'Statistic collector'
+  #   cron: '0 04 * * *'
+  #   class: 'JarStatisticCollector'
+  #   queue: default
+  # send_statistic_collector:
+  #   description: 'Send statistic'
+  #   cron: '0 09 * * *'
+  #   class: 'SendStatisticCollector'
+  #   queue: telegram
+  # jar_without_sync_collector:
+  #   description: 'Jars collector which never not synced'
+  #   cron: '*/1 * * * *'
+  #   class: 'JarWithoutSyncCollector'
+  #   queue: parsing
+  # sync_collector:
+  #   description: 'Sync jars with last synced more than 60 minutes ago'
+  #   cron: '0 * * * *'
+  #   class: 'SyncCollector'
+  #   queue: parsing

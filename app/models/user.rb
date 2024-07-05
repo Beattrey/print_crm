@@ -4,10 +4,11 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :omniauthable, omniauth_providers: [:google_oauth2]
 
-  has_one :profile, dependent: :destroy
-  has_many :user_orders, dependent: :destroy
-  has_many :orders, through: :user_orders
-  has_many :order_invitations, dependent: :destroy
+  has_one :worker, dependent: :destroy
+  has_one :customer, through: :worker
+  has_one :print_maker, through: :worker
+
+  after_create :create_worker_for_user
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
@@ -16,5 +17,12 @@ class User < ApplicationRecord
       user.name = auth.info.name
       user.avatar_url = auth.info.image
     end
+  end
+
+  private
+
+  def create_worker_for_user
+    # Создаем Worker, если он еще не существует
+    create_worker(name: name) unless worker
   end
 end

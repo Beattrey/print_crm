@@ -1,0 +1,5 @@
+<h1>Замовлення</h1>
+
+<% @current_user.customer.orders.each do |order| %>
+  <%= order.name %>
+<% end %>

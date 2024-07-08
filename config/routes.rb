@@ -20,6 +20,28 @@ Rails.application.routes.draw do
   resources :print_makers
 
   namespace :customers do
-    resources :orders
+    resources :orders do
+      member do
+        delete :remove_model
+        delete :remove_image
+      end
+    end
+  end
+
+  namespace :print_makers do
+    resources :orders do
+      collection do
+        get :available_orders
+      end
+    end
+
+    resources :order_invitations do
+      member do
+        get 'reject'
+        get 'accept'
+      end
+    end
+
+    resources :print_maker_orders, only: [:update]
   end
 end

@@ -23,6 +23,45 @@ module Customers
       end
     end
 
+    def edit
+      @order = Order.find(params[:id])
+    end
+
+    def update
+      @order = Order.find(params[:id])
+
+      binding.pry
+
+      # if params[:order][:images]
+      #   params[:order][:images].each do |image|
+      #     @order.images.attach(image)
+      #   end
+      # end
+
+      # if params[:order][:models]
+      #   params[:order][:models].each do |model|
+      #     @order.models.attach(model)
+      #   end
+      # end
+
+
+      if @order.update(order_params)
+        redirect_to customers_orders_path, notice: 'Замовлення оновлено'
+      end
+    end
+
+    def remove_image
+      image = ActiveStorage::Attachment.find(params[:image_id])
+      image.purge
+      redirect_back(fallback_location: root_path, notice: 'Зображення видалено.')
+    end
+
+    def remove_model
+      @order = Order.find(params[:id])
+      model = @order.models.find(params[:model_id])
+      model.purge # Удалите аттачмент
+      redirect_to edit_customers_order_path(@order), notice: 'Модель було успішно видалено.'
+    end
 
     private
 

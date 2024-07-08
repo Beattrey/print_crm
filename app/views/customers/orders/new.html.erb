@@ -1,7 +1,7 @@
 <h1>Створення замовлення</h1>
 
 <%= simple_form_for :order, url: customers_orders_path, local: true, html: { multipart: true } do |f| %>
-  <%= f.input :name, label: 'Назва замовлення', input_html: { class: "form-control", required: true } %>
+  <%= f.input :name, label: 'Назва', input_html: { class: "form-control", required: true } %>
   <%= f.input :description, label: 'Опис', input_html: { class: "form-control", required: true } %>
   <%= f.input :quantity, label: 'Кількість', as: :integer, input_html: { min: 1, max: 10000, step: 1, class: "form-control", required: true } %>
   <%= f.input :filament_id, label: 'Филамент', as: :select, collection: Filament.all.collect { |filament| [filament.name.upcase, filament.id] }, include_blank: 'Виберіть филамент', input_html: { class: "form-control", required: true } %>

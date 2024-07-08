@@ -1,0 +1,12 @@
+<h1>Доступні замовлення</h1>
+
+<% if @available_orders.empty? %>
+  <p>Немає доступних замовлень</p>
+<% else %>
+  <div class="container">
+    <div class="row">
+      <% @available_orders.each do |order| %>
+        <%= render 'available_order', order: order %>
+      <% end %>
+    </div>
+<% end %>

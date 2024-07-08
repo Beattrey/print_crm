@@ -18,20 +18,25 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav">
                     <a href="#" class="nav-item nav-link active">Новини</a>
-                    <a href="#" class="nav-item nav-link">Замовлення</a>
-                    <%= link_to profile_path(current_user), class: "nav-item nav-link", data: { turbo: "false" }, method: :get do %> 
-                      <i class="bi bi-person-fill"></i>
+                    <%= link_to available_orders_print_makers_orders_path, class: 'nav-item nav-link',  data: { turbo: "false" }, method: :get do%>
+                      Доступні замовлення
                     <% end %>
-
-                     <% if current_user.customer %>
+                    <% if current_user.customer %>
                       <%= link_to new_customers_order_path, class: "nav-item nav-link", data: { turbo: "false" }, method: :get do %>
                         Створити замовлення
                       <% end %>
 
-                    <%= link_to customers_orders_path, class: 'nav-item nav-link', data: { turbo: "false" }, method: :get do %>
-                      Мої замовлення
+                      <%= link_to customers_orders_path, class: 'nav-item nav-link', data: { turbo: "false" }, method: :get do %>
+                        Мої замовлення
+                      <% end %>
                     <% end %>
-                  <% end %>
+                    <%= link_to profile_path(current_user), class: "nav-item nav-link", data: { turbo: "false" }, method: :get do %> 
+                      <i class="bi bi-person-fill"></i>
+                    <% end %>
+                  <a href="#" class="nav-item nav-link">
+                    <i class="bi bi-bell-fill"></i>
+                    <%# <span class="badge rounded-pill badge-notification bg-danger">1</span> %>
+                  </a>
                 </div>
             </div>
           <% end %>

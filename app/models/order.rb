@@ -6,22 +6,17 @@ class Order < ApplicationRecord
   has_many :order_invitations, dependent: :destroy
   belongs_to :customer
 
+  before_create :set_initial_status
   after_create :send_order_invitations
 
+  enum status: { pending: 'очікує', in_progress: 'в процесі', completed: 'завершено', canceled: 'скасовано' }
+
   def complition_percentage
-    return 7
     (total_completed_quantity.to_f / quantity.to_f * 100).round(2).to_i
   end
 
   def reserved_percentage
-    return 31
     (total_reserved_quantity.to_f / quantity.to_f * 100).round(2).to_i
-  end
-
-  private
-
-  def send_order_invitations
-    SendInvitation.perform_async(id)
   end
 
   def total_completed_quantity
@@ -30,5 +25,15 @@ class Order < ApplicationRecord
 
   def total_reserved_quantity
     print_maker_orders.sum(:reserved_quantity)
+  end
+
+  private
+
+  def send_order_invitations
+    SendInvitation.perform_async(id)
+  end
+
+  def set_initial_status
+    self.status ||= 'pending'
   end
 end

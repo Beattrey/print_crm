@@ -1,0 +1,54 @@
+<%= simple_form_for @order, url: customers_order_path, html: { class: 'needs-validation', novalidate: true, multipart: true } do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :name, label: 'Назва', required: true, input_html: { class: 'form-control' } %>
+    <%= f.input :description, label: 'Опис', as: :text, required: true, input_html: { class: 'form-control', rows: 3 } %>
+    <%= f.input :quantity, label: 'Кількість', as: :integer, required: true, input_html: { class: 'form-control', in: 1..1000, step: 1 } %>
+
+    <% if @order.images.attached? %>
+      <h3>Зображення:</h3>
+      <div class="row">
+        <% @order.images.each do |image| %>
+          <div class="col-md-2">
+            <div class="card">
+              <%= image_tag image, class: 'card-img-top' %>
+              <div class="card-body">
+                <%= link_to 'Видалити', remove_image_customers_order_path(image_id: image.id), data: { "turbo-method": :delete }, class: 'btn btn-danger' %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <hr>
+    <% end %>
+
+    <%= f.input :images, as: :file, required: false, class: 'mt-4', input_html: { multiple: true, accept: 'image/jpeg,image/png'}, label: 'Завантажити зображення' %>
+    <hr>
+
+
+    <% if @order.models.attached? %>
+      <h3>Моделі:</h3>
+      <div class="row">
+        <% @order.models.each do |model| %>
+          <div class="col-md-2">
+            <div class="card">
+              <%= link_to model.filename.to_s, rails_blob_path(model, disposition: "attachment") %>
+              <div class="card-body">
+              <%= link_to remove_model_customers_order_path(model_id: model.id), data: { "turbo-method": :delete }, class: "btn btn-danger" do %>
+                Видалити
+              <% end %>
+              </div>
+            </div>
+        <% end %>
+      </div>
+      <hr>
+    <% end %>
+
+      <%= f.input :models, as: :file, input_html: { multiple: true, name: 'order[models][]', accept: '.zip,.stl', required: true }, label: 'Завантажити модель' %>
+  </div>
+
+  <div class="form-actions mt-5">
+    <%= f.button :submit, "Зберегти", class: 'btn btn-primary' %>
+  </div>
+<% end %>

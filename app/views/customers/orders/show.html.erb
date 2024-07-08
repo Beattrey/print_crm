@@ -11,8 +11,8 @@
 
         <div class='complition-content'>
         <hr class="w-50">
-          <p class="card-text">Вироблено: <b><%= @order.complition_percentage %> </b>з <%= @order.quantity %></p>
-          <p class="card-text">Взято до роботи: <b><%= @order.reserved_percentage %> </b>з <%= @order.quantity %></p>
+          <p class="card-text">Вироблено: <b><%= @order.total_completed_quantity %> </b>з <%= @order.quantity %></p>
+          <p class="card-text">Взято до роботи: <b><%= @order.total_reserved_quantity %> </b>з <%= @order.quantity %></p>
         <hr class="w-50">
       </div>
       </div>
@@ -39,6 +39,7 @@
     </div>
   <% end %>
 
-
-
+  <div class="edit-close-section mt-4">
+    <%= link_to 'Редагувати замовлення', edit_customers_order_path(@order), class: 'btn btn-primary me-2' %>
+  </div>
 </div>

@@ -13,7 +13,6 @@ class SendInvitation
       print_makers_filaments: { filament_id: order.filament_id }
     )
 
-    binding.pry
     matching_print_makers.each do |print_maker|
       OrderInvitation.create(
         order_id: order.id,

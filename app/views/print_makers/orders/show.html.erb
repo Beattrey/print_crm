@@ -1,0 +1,77 @@
+<div class="row">
+  <div class="d-flex align-items-center mt-4">
+    <p class="fw-bold mb-0">Назва:</p>
+    <p class="fw-normal mb-0 ms-2"><%= @order.name %></p>
+  </div>
+  <div class="d-flex align-items-center mt-4">
+    <p class="fw-bold mb-0">Опис:</p>
+    <p class="fw-normal mb-0 ms-2"><%= @order.description %></p>
+  </div>
+
+  
+      <div class='complition-content'>
+        <hr class="w-50">
+        <% if @print_maker_order.reserved_quantity.present? %>
+          <p class="card-text">Взято до роботи: <b><%= @print_maker_order.reserved_quantity %></b></p>
+        <% end %>
+
+        <% if @print_maker_order.completed_quantity.present? %>
+          <p class="card-text">Виконано: <b><%= @print_maker_order.completed_quantity %> </b>з <%= @print_maker_order.reserved_quantity %></p>
+        <% end %>
+        <hr class="w-50">
+      </div>
+      </div>
+    </div>
+  </div>
+
+
+  <% if @order.images.attached? %>
+    <p class='fw-bold mb-0'>Зображення замовлення:</p>
+    <% @order.images.each do |image| %>
+      <%= link_to rails_blob_path(image, disposition: "inline"), target: "_blank", rel: "noopener noreferrer" do %>
+        <%= image_tag(image.variant(resize_to_fill: [200, nil])) %>
+      <% end %>
+    <% end %>
+    <hr class="w-50">
+  <% end %>
+
+  <% if @order.models.attached? %>
+    <div>
+      <p class='fw-bold mb-0'>Моделі:</p>
+        <% @order.models.each do |model| %>
+          <p class="card-text mt-1"><%= link_to File.basename(model.filename.to_s), rails_blob_path(model, disposition: 'attachment') %></p>
+        <% end %>
+    </div>
+  <% end %>
+
+   <% if @print_maker_order.images.attached? %>
+    <hr class="w-50">
+    <p class='fw-bold mb-0'>Вашi зображення:</p>
+    <% @print_maker_order.images.each do |image| %>
+      <%= link_to rails_blob_path(image, disposition: "inline"), target: "_blank", rel: "noopener noreferrer" do %>
+        <%= image_tag(image.variant(resize_to_fill: [200, nil])) %>
+      <% end %>
+    <% end %>
+    <hr class="w-50">
+  <% end %>
+
+  <% if PrintMakers::OrderPolicy.new(current_user.print_maker, @order).can_see_invite_section?%>
+    <div class="edit-close-section mt-4">
+      <%= link_to 'Прийняти запрошення', accept_print_makers_order_invitation_path(@order), class: 'btn btn-success me-2' %>
+      <%= link_to 'Відхилити запрошення', reject_print_makers_order_invitation_path(@order), class: 'btn btn-danger me-2' %>
+    </div>
+  <% end %>
+
+  <% if PrintMakers::OrderPolicy.new(current_user.print_maker, @order).invitation_accepted? %>
+    <hr class="w-50">
+    <%= simple_form_for @print_maker_order, url: print_makers_print_maker_order_path(@order), method: :patch do |f| %>
+      <% if @print_maker_order.reserved_quantity.nil? %>
+        <%= f.input :reserved_quantity, label: 'Я планую зробити',  wrapper_html: { class: 'w-50' }, input_html: { min: 1 }, required: true %>
+      <% else %>
+        <%= f.input :completed_quantity, label: 'Я зробив',  wrapper_html: { class: 'w-50' }, input_html: { min: 1, max: @print_maker_order.available_completed_quantity }, required: true %>
+      <% end %>
+      <%= f.input :images, as: :file, required: false, class: 'mt-4', wrapper_html: { class: 'w-50' }, input_html: { multiple: true, name: 'print_maker_order[images][]', accept: 'image/jpeg,image/png'}, label: 'Завантажити зображення' %>
+     <%= f.button :submit, 'Оновити', class: 'btn btn-primary' %>
+    <% end %>
+  <% end %>
+</div>

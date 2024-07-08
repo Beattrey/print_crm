@@ -8,6 +8,11 @@ module PrintMakers
       end
     end
 
+    def close_order
+      @print_maker_order.update(status: "completed")
+      redirect_to available_orders_print_makers_orders_path, notice: "Замовлення успішно закрито."
+    end
+
     private
 
     def find_data

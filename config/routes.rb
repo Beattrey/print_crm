@@ -42,6 +42,10 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :print_maker_orders, only: [:update]
+    resources :print_maker_orders, only: [:update] do
+      member do
+        patch :close_order
+      end
+    end
   end
 end

@@ -3,9 +3,9 @@ class PrintMakerOrder < ApplicationRecord
   belongs_to :order
   has_many_attached :images, dependent: :purge
 
-  def available_completed_quantity
-    return reserved_quantity if completed_quantity.nil?
+  enum status: { pending: 'pending', in_progress: 'in_progress', completed: 'completed' }
 
-    reserved_quantity - completed_quantity
+  def available_completed_quantity
+    reserved_quantity
   end
 end

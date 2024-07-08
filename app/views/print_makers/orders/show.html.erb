@@ -52,7 +52,6 @@
         <%= image_tag(image.variant(resize_to_fill: [200, nil])) %>
       <% end %>
     <% end %>
-    <hr class="w-50">
   <% end %>
 
   <% if PrintMakers::OrderPolicy.new(current_user.print_maker, @order).can_see_invite_section?%>
@@ -67,11 +66,19 @@
     <%= simple_form_for @print_maker_order, url: print_makers_print_maker_order_path(@order), method: :patch do |f| %>
       <% if @print_maker_order.reserved_quantity.nil? %>
         <%= f.input :reserved_quantity, label: 'Я планую зробити',  wrapper_html: { class: 'w-50' }, input_html: { min: 1 }, required: true %>
-      <% else %>
-        <%= f.input :completed_quantity, label: 'Я зробив',  wrapper_html: { class: 'w-50' }, input_html: { min: 1, max: @print_maker_order.available_completed_quantity }, required: true %>
+        <%= f.button :submit, 'Оновити', class: 'btn btn-primary' %>
       <% end %>
-      <%= f.input :images, as: :file, required: false, class: 'mt-4', wrapper_html: { class: 'w-50' }, input_html: { multiple: true, name: 'print_maker_order[images][]', accept: 'image/jpeg,image/png'}, label: 'Завантажити зображення' %>
-     <%= f.button :submit, 'Оновити', class: 'btn btn-primary' %>
+      <% if @print_maker_order.reserved_quantity && @print_maker_order.reserved_quantity != @print_maker_order.completed_quantity %>
+        <%= f.input :completed_quantity, label: 'Я зробив',  wrapper_html: { class: 'w-50' }, input_html: { min: 1, max: @print_maker_order.available_completed_quantity }, required: true %>
+        <%= f.button :submit, 'Оновити', class: 'btn btn-primary' %>
+      <% end %>
+      <% if @print_maker_order.reserved_quantity == @print_maker_order.completed_quantity && !@print_maker_order.images.attached?%>
+        <%= f.input :images, as: :file, required: false, class: 'mt-4', wrapper_html: { class: 'w-50' }, input_html: { multiple: true, name: 'print_maker_order[images][]', accept: 'image/jpeg,image/png'}, label: 'Додати звiт' %>
+        <%= f.button :submit, 'Оновити', class: 'btn btn-primary' %>
+      <% end %>
+    <% end %>
+    <% if @print_maker_order.reserved_quantity == @print_maker_order.completed_quantity &&  @print_maker_order.images.attached? %>
+      <%= button_to 'Завершити замовлення', close_order_print_makers_print_maker_order_path(@order, print_maker_order: @print_maker_order), method: :patch, class: 'btn btn-primary' %>
     <% end %>
   <% end %>
 </div>

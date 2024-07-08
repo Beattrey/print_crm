@@ -30,22 +30,15 @@ module Customers
     def update
       @order = Order.find(params[:id])
 
-      binding.pry
+      params[:order][:images].select(&:present?).each do |image|
+        @order.images.attach(image)
+      end
 
-      # if params[:order][:images]
-      #   params[:order][:images].each do |image|
-      #     @order.images.attach(image)
-      #   end
-      # end
+      params[:order][:models].select(&:present?).each do |model|
+        @order.models.attach(model)
+      end
 
-      # if params[:order][:models]
-      #   params[:order][:models].each do |model|
-      #     @order.models.attach(model)
-      #   end
-      # end
-
-
-      if @order.update(order_params)
+      if @order.update(order_params.except(:models, :images))
         redirect_to customers_orders_path, notice: 'Замовлення оновлено'
       end
     end

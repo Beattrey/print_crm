@@ -107,6 +107,7 @@ GEM
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
     faraday-net_http (3.0.2)
+    ffi (1.17.0-arm64-darwin)
     ffi (1.17.0-x86_64-darwin)
     fugit (1.11.0)
       et-orbi (~> 1, >= 1.2.11)
@@ -157,6 +158,8 @@ GEM
     net-smtp (0.5.0)
       net-protocol
     nio4r (2.7.3)
+    nokogiri (1.16.6-arm64-darwin)
+      racc (~> 1.4)
     nokogiri (1.16.6-x86_64-darwin)
       racc (~> 1.4)
     oauth2 (1.4.9)
@@ -304,6 +307,7 @@ GEM
     zeitwerk (2.6.16)
 
 PLATFORMS
+  arm64-darwin-22
   x86_64-darwin-22
 
 DEPENDENCIES

@@ -11,6 +11,9 @@
   
       <div class='complition-content'>
         <hr class="w-50">
+        <% if @print_maker_order.reserved_quantity.nil? %>
+          <p class="card-text">Доступно до роботи: <b><%= @available_quantity %></b></p>
+        <% end %>
         <% if @print_maker_order.reserved_quantity.present? %>
           <p class="card-text">Взято до роботи: <b><%= @print_maker_order.reserved_quantity %></b></p>
         <% end %>

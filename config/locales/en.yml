@@ -31,3 +31,12 @@
 
 en:
   hello: "Hello world"
+  enums:
+    order:
+      status:
+        pending: "Очікує пiдтвердження"
+        approved: "Схвалено"
+        rejected: "Відхилено"
+        in_progress: "В процесі"
+        completed: "Завершено"
+        canceled: "Скасовано"

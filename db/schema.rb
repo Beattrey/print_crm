@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_07_04_191812) do
+ActiveRecord::Schema[7.0].define(version: 2024_08_02_172736) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -55,6 +55,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_04_191812) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "order_filaments", force: :cascade do |t|
+    t.bigint "order_id", null: false
+    t.bigint "filament_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["filament_id"], name: "index_order_filaments_on_filament_id"
+    t.index ["order_id"], name: "index_order_filaments_on_order_id"
+  end
+
   create_table "order_invitations", force: :cascade do |t|
     t.string "status"
     t.bigint "print_maker_id", null: false
@@ -70,12 +79,18 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_04_191812) do
     t.text "description"
     t.integer "quantity"
     t.date "deadline"
-    t.bigint "filament_id", null: false
     t.bigint "customer_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "status", default: "pending"
     t.index ["customer_id"], name: "index_orders_on_customer_id"
-    t.index ["filament_id"], name: "index_orders_on_filament_id"
+  end
+
+  create_table "print_maker_admins", force: :cascade do |t|
+    t.bigint "worker_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["worker_id"], name: "index_print_maker_admins_on_worker_id"
   end
 
   create_table "print_maker_orders", force: :cascade do |t|
@@ -85,6 +100,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_04_191812) do
     t.integer "completed_quantity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "track_number"
+    t.string "status", default: "pending"
     t.index ["order_id"], name: "index_print_maker_orders_on_order_id"
     t.index ["print_maker_id"], name: "index_print_maker_orders_on_print_maker_id"
   end
@@ -98,11 +115,18 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_04_191812) do
     t.index ["worker_id"], name: "index_print_makers_on_worker_id"
   end
 
-  create_table "print_makers_filaments", id: false, force: :cascade do |t|
+  create_table "print_makers_filaments", force: :cascade do |t|
     t.bigint "print_maker_id", null: false
     t.bigint "filament_id", null: false
     t.index ["filament_id"], name: "index_print_makers_filaments_on_filament_id"
     t.index ["print_maker_id"], name: "index_print_makers_filaments_on_print_maker_id"
+  end
+
+  create_table "super_admins", force: :cascade do |t|
+    t.bigint "worker_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["worker_id"], name: "index_super_admins_on_worker_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -132,14 +156,17 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_04_191812) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "customers", "workers"
+  add_foreign_key "order_filaments", "filaments"
+  add_foreign_key "order_filaments", "orders"
   add_foreign_key "order_invitations", "orders"
   add_foreign_key "order_invitations", "print_makers"
   add_foreign_key "orders", "customers"
-  add_foreign_key "orders", "filaments"
+  add_foreign_key "print_maker_admins", "workers"
   add_foreign_key "print_maker_orders", "orders"
   add_foreign_key "print_maker_orders", "print_makers"
   add_foreign_key "print_makers", "workers"
   add_foreign_key "print_makers_filaments", "filaments"
   add_foreign_key "print_makers_filaments", "print_makers"
+  add_foreign_key "super_admins", "workers"
   add_foreign_key "workers", "users"
 end

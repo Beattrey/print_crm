@@ -1,0 +1,15 @@
+  <hr class="w-50">
+  <%= simple_form_for @print_maker_order, url: print_makers_orders_path(@print_maker_order), method: :patch do |f| %>
+    <% if @print_maker_order.reserved_quantity.nil? %>
+      <%= f.input :reserved_quantity, label: 'Я планую зробити',  wrapper_html: { class: 'w-50' }, input_html: { min: 1 }, required: true %>
+      <%= f.button :submit, 'Взяти до роботи', class: 'btn btn-primary' %>
+      <% f.hidden_field :print_maker_id, value: @current_user.id %>
+      <% f.hidden_field :order_id, value: @order.id %>
+    <% end %>
+    <% if @print_maker_order.reserved_quantity && @print_maker_order.reserved_quantity != @print_maker_order.completed_quantity %>
+      <%= f.input :completed_quantity, label: 'Я зробив',  wrapper_html: { class: 'w-50' }, input_html: { min: 1, max: @print_maker_order.available_completed_quantity }, required: true %>
+      <%= f.button :submit, 'Оновити', class: 'btn btn-primary' %>
+    <% end %>
+  <% end %>
+
+  <%= button_to 'Завершити замовлення', close_order_print_makers_print_maker_order_path(@order, print_maker_order: @print_maker_order), method: :patch, class: ' mt-2 btn btn-primary' %>

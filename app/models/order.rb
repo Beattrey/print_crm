@@ -4,12 +4,15 @@ class Order < ApplicationRecord
   has_many :print_maker_orders, dependent: :destroy
   has_many :print_makers, through: :print_maker_orders
   has_many :order_invitations, dependent: :destroy
+  has_many :order_filaments, dependent: :destroy
+  has_many :filaments, through: :order_filaments
   belongs_to :customer
 
-  before_create :set_initial_status
-  after_create :send_order_invitations
+  # after_create :send_order_invitations
 
-  enum status: { pending: 'очікує', in_progress: 'в процесі', completed: 'завершено', canceled: 'скасовано' }
+  scope :available_orders, -> { where(status: ['approved', 'in_progress']) } 
+
+  enum status: { pending: 'pending', approved: 'approved', rejected: 'rejected', in_progress: 'in_progress', completed: 'completed', canceled: 'canceled' }
 
   def complition_percentage
     (total_completed_quantity.to_f / quantity.to_f * 100).round(2).to_i
@@ -27,13 +30,17 @@ class Order < ApplicationRecord
     print_maker_orders.sum(:reserved_quantity)
   end
 
+  def status_value
+    self.class.statuses.key(self.status)
+  end
+
+  def available_quantity
+    quantity - total_completed_quantity
+  end
+
   private
 
-  def send_order_invitations
-    SendInvitation.perform_async(id)
-  end
-
-  def set_initial_status
-    self.status ||= 'pending'
-  end
+  # def send_order_invitations
+  #   SendInvitation.perform_async(id)
+  # end
 end

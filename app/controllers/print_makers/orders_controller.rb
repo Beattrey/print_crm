@@ -6,12 +6,16 @@ module PrintMakers
 
     def show
       @order = Order.find(params[:id])
-      @print_maker_order = PrintMakerOrder.find_or_create_by(print_maker_id: current_user.id, order_id: @order.id)
-      @available_quantity = @order.quantity - PrintMakerOrder.where(order_id: @order.id).sum(&:reserved_quantity) # maybe should be recalculated after logic with closed order will be done
+      @print_maker_order = PrintMakerOrder.not_finished.find_or_create_by(print_maker_id: current_user.print_maker.id, order_id: @order.id)
+      @available_quantity = @order.available_quantity
     end
 
     def available_orders
-      @available_orders = current_user.print_maker.available_orders
+      @available_orders = Order.available_orders
+    end
+
+    def archived_orders
+      @archived_orders = PrintMakerOrder.completed.where(print_maker_id: current_user.print_maker.id)
     end
   end
 end

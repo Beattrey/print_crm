@@ -1,5 +1,4 @@
 class PrintMaker < ApplicationRecord
-
   belongs_to :worker
 
   has_many :print_makers_filaments, dependent: :destroy
@@ -14,5 +13,9 @@ class PrintMaker < ApplicationRecord
   def available_orders
     orders.joins(:order_invitations)
           .where(order_invitations: { status: ['pending', 'accepted'] }).distinct
+  end
+
+  def account_type
+    'print_maker'
   end
 end

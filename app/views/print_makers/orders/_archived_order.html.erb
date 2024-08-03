@@ -1,0 +1,12 @@
+<div class="col-md-4 mb-4">
+  <div class="card">
+    <div class="card-header"><%= archived_order.order.name %></div>
+    <div class="card-body">
+      <p class="card-text"><%= archived_order.order.description %></p>
+      <div class='complition-content'>
+        <p class="card-text mt-2"><b>Взято до роботи:</b> <%= archived_order.reserved_quantity %></p>
+        <p class="card-text mt-2"><b>Вироблено:</b> <%= archived_order.completed_quantity %></p>
+        <p class="card-text mt-2"><b>ТТН:</b> <%= archived_order.track_number %></p>
+  </div>
+</div>
+

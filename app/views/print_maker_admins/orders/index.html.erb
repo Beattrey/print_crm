@@ -1,0 +1,12 @@
+<h1>Перелiк замовлень</h1>
+
+<% if @orders.empty? %>
+  <p>Немає доступних замовлень</p>
+<% else %>
+  <div class="container">
+    <div class="row">
+      <% @orders.each do |order| %>
+        <%= render 'order', order: order %>
+      <% end %>
+    </div>
+<% end %>

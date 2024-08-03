@@ -63,16 +63,22 @@ module Customers
     end
 
     def order_params
+      clear_empty_values
+
       params.require(:order).permit(
         :name,
         :description,
         :quantity,
         :deadline,
         :customer_id,
-        :filament_id,
+        filament_ids: [],
         images: [],
         models: []
       )
+    end
+
+    def clear_empty_values
+      params['order']['filament_ids'].reject!(&:blank?)
     end
   end
 end

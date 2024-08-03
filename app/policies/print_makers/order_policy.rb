@@ -11,5 +11,12 @@ module PrintMakers
 
       false
     end
+
+    def can_see_attached_model?
+      order_filaments = @record.order_filaments.pluck(:filament_id)
+      print_makers_filaments = @user.print_makers_filaments.pluck(:filament_id)
+
+      order_filaments.all? { |element| print_makers_filaments.include?(element) }
+    end
   end
 end

@@ -7,6 +7,8 @@ class User < ApplicationRecord
   has_one :worker, dependent: :destroy
   has_one :customer, through: :worker
   has_one :print_maker, through: :worker
+  has_one :print_maker_admin, through: :worker
+  has_one :super_admin, through: :worker
 
   after_create :create_worker_for_user
 

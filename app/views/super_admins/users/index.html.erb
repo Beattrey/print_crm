@@ -1,0 +1,31 @@
+<!-- app/views/admin/users/index.html.erb -->
+<h1>Керування користувачами</h1>
+
+<%= simple_form_for :user, url: update_roles_super_admins_users_path, method: :post do |f| %>
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Ім'я</th>
+        <th>Email</th>
+        <th>Друкар</th>
+        <th>Замовник</th>
+        <th>Адміністратор друку</th>
+        <th>Супер адміністратор</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each_with_index do |user, index| %>
+        <tr>
+          <td><%= user.name %></td>
+          <td><%= user.email %></td>
+          <td><%= f.check_box :print_maker, name: "users[#{index}][print_maker]", checked: !!user.print_maker %></td>
+          <td><%= f.check_box :customer, name: "users[#{index}][customer]", checked: !!user.customer %></td>
+          <td><%= f.check_box :print_maker_admin, name: "users[#{index}][print_maker_admin]", checked: !!user.print_maker_admin %></td>
+          <td><%= f.check_box :super_admin, name: "users[#{index}][super_admin]", checked: !!user.super_admin %></td>
+          <%= f.hidden_field :id, name: "users[#{index}][id]", value: user.id %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= f.button :submit, "Обновити", class: "btn btn-primary" %>
+<% end %>

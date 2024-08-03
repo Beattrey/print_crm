@@ -3,26 +3,26 @@
     <p class="fw-bold mb-0">Назва:</p>
     <p class="fw-normal mb-0 ms-2"><%= @order.name %></p>
   </div>
-
   <div class="d-flex align-items-center mt-4">
     <p class="fw-bold mb-0">Опис:</p>
     <p class="fw-normal mb-0 ms-2"><%= @order.description %></p>
   </div>
 
-  <div class="d-flex align-items-center mt-4">
-    <p class="fw-bold mb-0">Філамент:</p>
-    <p class='fw-normal mb-0 ms-2'><%= @order.filaments.pluck(:name).map(&:capitalize).join(", ") %></p>
+  
+      <div class='complition-content'>
+        <hr class="w-50">
+          <p class="card-text">Кiлькicть: <b><%= @order.quantity %></b></p>
+        <hr class="w-50">
+          <p class="card-text">Статус: <%= I18n.t("enums.order.status.#{@order.status}") %></p>
+        <hr class="w-50">
+      </div>
+      </div>
+    </div>
   </div>
 
-  <div class='complition-content'>
-    <hr class="w-50">
-      <p class="card-text">Вироблено: <b><%= @order.total_completed_quantity %> </b>з <%= @order.quantity %></p>
-      <p class="card-text">Взято до роботи: <b><%= @order.total_reserved_quantity %> </b>з <%= @order.quantity %></p>
-    <hr class="w-50">
-  </div>
 
   <% if @order.images.attached? %>
-    <p class='fw-bold mb-0'>Зображення:</p>
+    <p class='fw-bold mb-0'>Зображення замовлення:</p>
     <% @order.images.each do |image| %>
       <%= link_to rails_blob_path(image, disposition: "inline"), target: "_blank", rel: "noopener noreferrer" do %>
         <%= image_tag(image.variant(resize_to_fill: [200, nil])) %>
@@ -40,7 +40,10 @@
     </div>
   <% end %>
 
-  <div class="edit-close-section mt-4">
-    <%= link_to 'Редагувати замовлення', edit_customers_order_path(@order), class: 'btn btn-primary me-2' %>
-  </div>
+ <% if @order.pending? %>
+    <div class="edit-close-section mt-4">
+      <%= link_to 'Пiдтвердити замовлення', approve_order_print_maker_admins_order_path(@order), class: 'btn btn-success me-2', data: { turbo_method: :post }  %>
+      <%= link_to 'Відхилити замовлення', reject_order_print_maker_admins_order_path(@order), class: 'btn btn-danger me-2', data: { turbo_method: :post }  %>
+    </div>
+  <% end %>
 </div>

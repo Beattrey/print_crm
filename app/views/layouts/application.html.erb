@@ -18,8 +18,22 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav">
                     <a href="#" class="nav-item nav-link active">Новини</a>
-                    <%= link_to available_orders_print_makers_orders_path, class: 'nav-item nav-link',  data: { turbo: "false" }, method: :get do%>
-                      Доступні замовлення
+                    <% if current_user.print_maker %>
+                      <%= link_to available_orders_print_makers_orders_path, class: 'nav-item nav-link',  data: { turbo: "false" }, method: :get do%>
+                        Доступні замовлення
+                      <% end %>
+                      <%= link_to archived_orders_print_makers_orders_path, class: 'nav-item nav-link',  data: { turbo: "false" }, method: :get do%>
+                        Завершені замовлення
+                      <% end %>
+                      <%= link_to profile_path(current_user), class: "nav-item nav-link", data: { turbo: "false" }, method: :get do %> 
+                        <i class="bi bi-person-fill"></i>
+                      <% end %>
+                    <% end %>
+
+                    <% if current_user.print_maker_admin || current_user.super_admin %>
+                      <%= link_to print_maker_admins_orders_path, class: 'nav-item nav-link',  data: { turbo: "false" }, method: :get do%>
+                        Перелiк замовлень
+                      <% end %>
                     <% end %>
                     <% if current_user.customer %>
                       <%= link_to new_customers_order_path, class: "nav-item nav-link", data: { turbo: "false" }, method: :get do %>
@@ -30,13 +44,15 @@
                         Мої замовлення
                       <% end %>
                     <% end %>
-                    <%= link_to profile_path(current_user), class: "nav-item nav-link", data: { turbo: "false" }, method: :get do %> 
-                      <i class="bi bi-person-fill"></i>
+                    <% if current_user.super_admin %>
+                      <%= link_to super_admins_users_path, class: "nav-item nav-link", data: { turbo: "false" }, method: :get do %> 
+                        Керування користувачами
+                     <% end %>
                     <% end %>
-                  <a href="#" class="nav-item nav-link">
+                  <%# <a href="#" class="nav-item nav-link">
                     <i class="bi bi-bell-fill"></i>
                     <%# <span class="badge rounded-pill badge-notification bg-danger">1</span> %>
-                  </a>
+                  <%# </a> %>
                 </div>
             </div>
           <% end %>

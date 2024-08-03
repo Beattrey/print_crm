@@ -5,7 +5,7 @@ class CreateOrder < ActiveRecord::Migration[7.0]
       t.text :description
       t.integer :quantity
       t.date :deadline
-      t.references :filament, null: false, foreign_key: true
+      # t.references :filament, null: false, foreign_key: true
       t.references :customer, null: false, foreign_key: true
       t.timestamps
     end

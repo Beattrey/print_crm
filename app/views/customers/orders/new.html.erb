@@ -4,7 +4,10 @@
   <%= f.input :name, label: 'Назва', input_html: { class: "form-control", required: true } %>
   <%= f.input :description, label: 'Опис', input_html: { class: "form-control", required: true } %>
   <%= f.input :quantity, label: 'Кількість', as: :integer, input_html: { min: 1, max: 10000, step: 1, class: "form-control", required: true } %>
-  <%= f.input :filament_id, label: 'Филамент', as: :select, collection: Filament.all.collect { |filament| [filament.name.upcase, filament.id] }, include_blank: 'Виберіть филамент', input_html: { class: "form-control", required: true } %>
+  <%= f.label :filaments, 'Філамент:', class: 'form-label' %>
+   <%= f.collection_check_boxes :filament_ids, Filament.all, :id, :name do |b| %>
+      <%= b.label(class: "checkbox ml-1") { b.check_box + b.text.upcase } %>
+    <% end %>
   <%= f.input :deadline, as: :date, html5: true, label: 'Виконати до', input_html: { class: "form-control w-50", required: true } %>
   <%= f.input :images, as: :file, required: false, input_html: { multiple: true, name: 'order[images][]', accept: 'image/jpeg,image/png'}, label: 'Завантажити зображення' %>
   <%= f.input :models, as: :file, input_html: { multiple: true, name: 'order[models][]', accept: '.zip,.stl', required: true }, label: 'Завантажити модель' %>

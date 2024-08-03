@@ -4,6 +4,7 @@
     <div class="card-header"><%= order.name %></div>
     <div class="card-body">
       <p class="card-text"><%= order.description %></p>
+      <p class="card-text"><%= order.filaments.pluck(:name).map(&:capitalize).join(", ") %></p>
       <div class='complition-content'>
         <p class="card-text mt-2">Вироблено </p>
         <div class="progress mb-2">

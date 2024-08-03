@@ -1,0 +1,12 @@
+<h1>Завершені замовлення</h1>
+
+<% if @archived_orders.empty? %>
+  <p>Немає завершених замовленьь</p>
+<% else %>
+  <div class="container">
+    <div class="row">
+      <% @archived_orders.each do |archived_order| %>
+        <%= render 'archived_order', archived_order: archived_order %>
+      <% end %>
+    </div>
+<% end %>

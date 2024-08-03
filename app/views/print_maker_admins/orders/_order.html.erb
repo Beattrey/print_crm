@@ -4,20 +4,31 @@
     <div class="card-header"><%= order.name %></div>
     <div class="card-body">
       <p class="card-text"><%= order.description %></p>
-      <p class='card-text'><%= order.filaments.pluck(:name).map(&:capitalize).join(", ") %></p>
+      <p class="card-text">Статус: <%= I18n.t("enums.order.status.#{order.status}") %></p>
       <div class='complition-content'>
         <p class="card-text mt-2">Вироблено </p>
         <div class="progress mb-2">
           <div class="progress-bar bg-success" role="progressbar" style="width: <%= order.complition_percentage%>%;" aria-valuenow="<%= order.complition_percentage%>" aria-valuemin="0" aria-valuemax="100"><%= order.complition_percentage%>%</div>
         </div>
-        <p class="card-text"><b><%= order.complition_percentage %> </b>з <%= order.quantity %></p>
+        <p class="card-text"><b><%= order.total_completed_quantity %> </b>з <%= order.quantity %></p>
         <p class="card-text mt-2">Взято до роботи </p>
         <div class="progress mb-2">
           <div class="progress-bar" role="progressbar" style="width: <%= order.reserved_percentage%>%;" aria-valuenow="<%= order.reserved_percentage%>" aria-valuemin="0" aria-valuemax="100"><%= order.reserved_percentage%>%</div>
         </div>
-        <p class="card-text"><b><%= order.reserved_percentage %> </b>з <%= order.quantity %></p>
+        <p class="card-text"><b><%= order.total_reserved_quantity %> </b>з <%= order.quantity %></p>
     </div>
-      <a href="<%= customers_order_path(order) %>" class=" mt-2 btn btn-primary">Переглянути замовлення</a>
+      <div class="edit-close-section mt-4">
+        <a href="<%= print_maker_admins_order_path(order) %>" class="btn btn-primary">Переглянути замовлення</a>
+        <% if order.pending? %>
+          <%= link_to approve_order_print_maker_admins_order_path(order), class: 'btn btn-success me-2', data: { turbo_method: :post } do %>
+            <i class="bi bi-check2"></i>
+          <% end %>
+
+          <%= link_to reject_order_print_maker_admins_order_path(order), class: 'btn btn-danger me-2', data: { turbo_method: :post }  do %>
+            <i class="bi bi-x-lg"></i>
+          <% end %>
+      <% end %>
+      </div>
     </div>
   </div>
 </div>

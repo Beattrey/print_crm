@@ -40,6 +40,10 @@ gem 'omniauth-rails_csrf_protection', '~> 1.0'
 
 gem 'simple_form', '~> 5.1', '>= 5.1.1'
 
+gem "stackprof"
+gem "sentry-ruby"
+gem "sentry-rails"
+
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
 

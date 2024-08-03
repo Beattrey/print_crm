@@ -63,7 +63,7 @@ ENV TZ Europe/Kiev
 ENV INSTALL_PATH /app
 ENV RAILS_ENV production
 ENV RACK_ENV production
-ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so.2
+ENV LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libjemalloc.so.2
 
 WORKDIR $INSTALL_PATH
 

@@ -35,7 +35,7 @@
                         Перелiк замовлень
                       <% end %>
                     <% end %>
-                    <% if current_user.customer %>
+                    <% if current_user.customer || current_user.print_maker_admin || current_user.super_admin %>
                       <%= link_to new_customers_order_path, class: "nav-item nav-link", data: { turbo: "false" }, method: :get do %>
                         Створити замовлення
                       <% end %>

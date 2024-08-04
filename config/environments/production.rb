@@ -36,7 +36,7 @@ Rails.application.configure do
   # config.assets.digest = true
 
   # Enable serving static files from the `/public` folder by default
-  config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
+  # config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
   # # Compress JavaScripts and CSS
   # config.assets.js_compressor = :uglifier

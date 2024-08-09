@@ -4,7 +4,7 @@ module Customers
     before_action :ensure_customer!
 
     def index
-      @orders = current_user.customer.orders
+      @orders = current_user.customer&.orders || current_user.print_maker_admin&.orders || current_user.super_admin&.orders
     end
 
     def show
@@ -16,7 +16,8 @@ module Customers
     end
 
     def create
-      @order = Order.new(order_params.merge(customer_id: current_user.customer.id))
+      @order = Order.new(order_params)
+      @order.orderable = current_user.customer || current_user.print_maker_admin || current_user.super_admin
 
       if @order.save
         redirect_to customers_orders_path, notice: 'Замовлення створено'
@@ -52,14 +53,16 @@ module Customers
     def remove_model
       @order = Order.find(params[:id])
       model = @order.models.find(params[:model_id])
-      model.purge # Удалите аттачмент
+      model.purge
       redirect_to edit_customers_order_path(@order), notice: 'Модель було успішно видалено.'
     end
 
     private
 
     def ensure_customer!
-      redirect_to root_path, alert: "Access denied!" unless current_user.customer
+      return if current_user.customer || current_user.print_maker_admin || current_user.super_admin
+
+      redirect_to root_path, alert: "Access denied!"
     end
 
     def order_params

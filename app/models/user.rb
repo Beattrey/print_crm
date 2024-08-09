@@ -24,7 +24,6 @@ class User < ApplicationRecord
   private
 
   def create_worker_for_user
-    # Создаем Worker, если он еще не существует
     create_worker(name: name) unless worker
   end
 end

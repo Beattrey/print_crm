@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_08_02_172736) do
+ActiveRecord::Schema[7.0].define(version: 2024_08_09_184137) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -79,11 +79,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_02_172736) do
     t.text "description"
     t.integer "quantity"
     t.date "deadline"
-    t.bigint "customer_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "status", default: "pending"
-    t.index ["customer_id"], name: "index_orders_on_customer_id"
+    t.string "orderable_type"
+    t.bigint "orderable_id"
+    t.index ["orderable_type", "orderable_id"], name: "index_orders_on_orderable"
   end
 
   create_table "print_maker_admins", force: :cascade do |t|
@@ -160,7 +161,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_02_172736) do
   add_foreign_key "order_filaments", "orders"
   add_foreign_key "order_invitations", "orders"
   add_foreign_key "order_invitations", "print_makers"
-  add_foreign_key "orders", "customers"
   add_foreign_key "print_maker_admins", "workers"
   add_foreign_key "print_maker_orders", "orders"
   add_foreign_key "print_maker_orders", "print_makers"

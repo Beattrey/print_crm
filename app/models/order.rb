@@ -6,7 +6,7 @@ class Order < ApplicationRecord
   has_many :order_invitations, dependent: :destroy
   has_many :order_filaments, dependent: :destroy
   has_many :filaments, through: :order_filaments
-  belongs_to :customer
+  belongs_to :orderable, polymorphic: true
 
   # after_create :send_order_invitations
 

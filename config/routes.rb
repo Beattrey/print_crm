@@ -16,6 +16,8 @@ Rails.application.routes.draw do
 
   root to: 'home#index'
 
+  post Rails.application.credentials.dig(:google_forms_url) => 'webhooks#callback'
+
   resources :profiles, only: %i[show new update]
   resources :print_makers
 
